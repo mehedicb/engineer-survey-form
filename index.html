@@ -1,0 +1,1813 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DEV.SPEC — Engineering Profile & Stack Registry</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Instrument Serif, Plus Jakarta Sans, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              serif: ['"Instrument Serif"', "Georgia", "serif"],
+              sans: [
+                '"Plus Jakarta Sans"',
+                "-apple-system",
+                "BlinkMacSystemFont",
+                "sans-serif",
+              ],
+              mono: ['"JetBrains Mono"', "monospace"],
+            },
+            colors: {
+              canvas: "#FAF8F5",
+              surface: "#FFFFFF",
+              muted: "#F3EFEA",
+              border: "#E8E3DC",
+              ink: {
+                DEFAULT: "#181816",
+                secondary: "#57544E",
+                muted: "#8C867E",
+              },
+              terracotta: {
+                DEFAULT: "#D95D39",
+                hover: "#C04D2B",
+                tint: "#FDF1ED",
+                border: "#F3C6B6",
+              },
+              sage: {
+                DEFAULT: "#2A6F4E",
+                tint: "#EBF5F0",
+                border: "#B8DEC9",
+              },
+            },
+            boxShadow: {
+              card: "0 8px 28px -8px rgba(24, 24, 22, 0.05), 0 2px 6px -1px rgba(24, 24, 22, 0.03)",
+              nav: "0 4px 20px -4px rgba(24, 24, 22, 0.06)",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body
+    class="min-h-screen font-sans selection:bg-terracotta/15 selection:text-terracotta pb-20"
+  >
+    <!-- ================= 1. STICKY TOP NAVIGATION BAR ================= -->
+    <header
+      class="sticky top-0 z-40 bg-canvas/90 backdrop-blur-md border-b border-border shadow-nav"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4"
+      >
+        <!-- Brand Mark: DEV.SPEC -->
+        <a href="#" class="flex items-center gap-3 group shrink-0">
+          <div
+            class="px-2.5 py-1 rounded-lg bg-ink text-canvas font-mono text-xs font-semibold tracking-wider flex items-center gap-1.5 shadow-sm group-hover:bg-terracotta transition-colors"
+          >
+            <span
+              class="w-1.5 h-1.5 rounded-full bg-terracotta group-hover:bg-white transition-colors"
+            ></span>
+            <span>DEV.SPEC</span>
+          </div>
+          <span class="text-sm font-semibold text-ink hidden sm:inline">
+            Engineer Profile &amp; Stack Survey
+          </span>
+        </a>
+
+        <!-- Smooth Section Anchor Pills -->
+        <nav
+          aria-label="Survey Sections"
+          class="hidden md:flex items-center gap-1 p-1 rounded-full bg-muted border border-border"
+        >
+          <a
+            href="#sec-01"
+            data-section="sec-01"
+            class="nav-pill active px-3.5 py-1 rounded-full text-xs font-semibold bg-surface text-ink shadow-sm transition-all"
+          >
+            <span class="font-mono text-terracotta mr-1">01</span>Identity
+          </a>
+          <a
+            href="#sec-02"
+            data-section="sec-02"
+            class="nav-pill px-3.5 py-1 rounded-full text-xs font-medium text-ink-secondary hover:text-ink transition-all"
+          >
+            <span class="font-mono text-ink-muted mr-1">02</span>Tech Stack
+          </a>
+          <a
+            href="#sec-03"
+            data-section="sec-03"
+            class="nav-pill px-3.5 py-1 rounded-full text-xs font-medium text-ink-secondary hover:text-ink transition-all"
+          >
+            <span class="font-mono text-ink-muted mr-1">03</span>Agentic AI
+          </a>
+          <a
+            href="#sec-04"
+            data-section="sec-04"
+            class="nav-pill px-3.5 py-1 rounded-full text-xs font-medium text-ink-secondary hover:text-ink transition-all"
+          >
+            <span class="font-mono text-ink-muted mr-1">04</span>Notes
+          </a>
+        </nav>
+
+        <!-- Live Completion Progress + Action Buttons -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          <!-- Completion Progress -->
+          <div class="hidden md:flex items-center gap-2.5">
+            <div
+              class="w-24 h-2 rounded-full bg-muted border border-border overflow-hidden"
+            >
+              <div
+                id="completionBar"
+                class="h-full bg-sage transition-all duration-300"
+                style="width: 0%"
+              ></div>
+            </div>
+            <span
+              id="completionText"
+              class="font-mono text-xs font-medium text-ink-secondary w-24"
+              >0% Complete</span
+            >
+          </div>
+
+          <!-- Auto-Fill Demo & Reset Buttons -->
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              id="autoFillBtn"
+              class="px-3.5 py-1.5 rounded-full bg-terracotta-tint hover:bg-terracotta hover:text-white text-terracotta border border-terracotta-border text-xs font-semibold transition flex items-center gap-1.5"
+            >
+              <svg
+                class="w-3.5 h-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
+                />
+              </svg>
+              <span>Auto-Fill Demo</span>
+            </button>
+            <button
+              type="button"
+              id="topResetBtn"
+              class="px-3 py-1.5 rounded-full bg-surface hover:bg-muted text-ink-secondary hover:text-ink border border-border text-xs font-medium transition"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT CONTAINER ================= -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12">
+      <!-- ================= 2. CLEAN EDITORIAL HERO HEADER ================= -->
+      <section class="max-w-3xl mb-10">
+        <div
+          class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted border border-border mb-4"
+        >
+          <span class="w-2 h-2 rounded-full bg-terracotta"></span>
+          <span
+            class="font-mono text-[11px] font-semibold uppercase tracking-widest text-ink-secondary"
+          >
+            ENGINEERING TELEMETRY &amp; WORKFLOW REGISTRY
+          </span>
+        </div>
+
+        <h1
+          class="font-serif text-4xl sm:text-5xl lg:text-[54px] text-ink leading-[1.08] tracking-tight mb-3"
+        >
+          Software Engineer Profile &amp;
+          <span class="italic font-normal text-terracotta">Agentic Stack</span>
+        </h1>
+
+        <p class="text-base sm:text-lg text-ink-secondary leading-relaxed">
+          A structured profile collecting your engineering discipline,
+          production stack, and how you integrate AI &amp; autonomous agents
+          into your daily workflow.
+        </p>
+      </section>
+
+      <!-- Validation Feedback Banner -->
+      <div
+        id="validationBanner"
+        class="hidden mb-8 p-4 rounded-2xl bg-terracotta-tint border border-terracotta-border text-ink flex items-center justify-between gap-4 shadow-sm"
+      >
+        <div class="flex items-center gap-3">
+          <span
+            class="w-6 h-6 rounded-full bg-terracotta text-white font-mono text-xs font-bold flex items-center justify-center shrink-0"
+            >!</span
+          >
+          <p id="validationBannerMsg" class="text-sm font-medium text-ink">
+            Please complete all required fields highlighted below before
+            submitting your profile.
+          </p>
+        </div>
+        <button
+          type="button"
+          onclick="
+            document.getElementById('validationBanner').classList.add('hidden')
+          "
+          class="text-xs font-semibold text-ink-secondary hover:text-ink px-2 py-1"
+        >
+          Dismiss
+        </button>
+      </div>
+
+      <!-- ================= 3. MAIN TWO-COLUMN GRID ================= -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- LEFT COLUMN: 4 COMPREHENSIVE FORM SECTIONS (7 COLS) -->
+        <form id="engineerForm" class="lg:col-span-7 space-y-8" novalidate>
+          <!-- =========================================================
+             SECTION 01: CORE IDENTITY & ROLE TOPOLOGY
+             ========================================================= -->
+          <section
+            id="sec-01"
+            class="form-section is-active-section bg-surface rounded-3xl border border-border shadow-card p-6 sm:p-8"
+          >
+            <div
+              class="flex items-start justify-between gap-4 border-b border-border/80 pb-5 mb-6"
+            >
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <span
+                    class="section-badge font-mono text-xs font-semibold px-2 py-0.5 rounded bg-terracotta-tint text-terracotta border border-terracotta-border transition-all duration-200"
+                    >SECTION 01</span
+                  >
+                  <span class="text-xs font-medium text-ink-muted"
+                    >Identity &amp; Topology</span
+                  >
+                </div>
+                <h2
+                  class="font-serif text-2xl sm:text-3xl text-ink tracking-tight"
+                >
+                  Core Identity &amp; Role Topology
+                </h2>
+              </div>
+              <span
+                class="text-xs font-medium text-ink-muted bg-muted px-2.5 py-1 rounded-full"
+                >* Required</span
+              >
+            </div>
+
+            <div class="space-y-6">
+              <!-- Text & URL Inputs (2x2 Grid) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <!-- Full Name / Handle -->
+                <div>
+                  <label
+                    for="fullName"
+                    class="block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-2"
+                  >
+                    Full Name / Handle <span class="text-terracotta">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    required
+                    placeholder="e.g. Elena Rostova (@erostova)"
+                    class="w-full px-4 py-2.5 rounded-xl bg-canvas border border-border text-sm text-ink placeholder-ink-muted focus:bg-surface focus:outline-none focus:border-ink transition"
+                  />
+                  <p
+                    id="err-fullName"
+                    class="hidden mt-1.5 text-xs text-terracotta font-medium"
+                  >
+                    Please enter your name or handle.
+                  </p>
+                </div>
+
+                <!-- Developer Email -->
+                <div>
+                  <label
+                    for="email"
+                    class="block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-2"
+                  >
+                    Developer Email <span class="text-terracotta">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    placeholder="elena@acme-systems.dev"
+                    class="w-full px-4 py-2.5 rounded-xl bg-canvas border border-border text-sm text-ink placeholder-ink-muted focus:bg-surface focus:outline-none focus:border-ink transition"
+                  />
+                  <p
+                    id="err-email"
+                    class="hidden mt-1.5 text-xs text-terracotta font-medium"
+                  >
+                    Please enter a valid developer email.
+                  </p>
+                </div>
+
+                <!-- GitHub / Portfolio URL -->
+                <div>
+                  <label
+                    for="githubUrl"
+                    class="block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-2"
+                  >
+                    GitHub / Portfolio URL
+                  </label>
+                  <input
+                    type="url"
+                    id="githubUrl"
+                    name="githubUrl"
+                    placeholder="https://github.com/erostova"
+                    class="w-full px-4 py-2.5 rounded-xl bg-canvas border border-border text-sm text-ink placeholder-ink-muted focus:bg-surface focus:outline-none focus:border-ink transition"
+                  />
+                  <p
+                    id="err-githubUrl"
+                    class="hidden mt-1.5 text-xs text-terracotta font-medium"
+                  >
+                    URL must start with http:// or https://
+                  </p>
+                </div>
+
+                <!-- Current Role Title -->
+                <div>
+                  <label
+                    for="roleTitle"
+                    class="block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-2"
+                  >
+                    Current Role Title
+                  </label>
+                  <input
+                    type="text"
+                    id="roleTitle"
+                    name="roleTitle"
+                    placeholder="e.g. Staff Systems Engineer"
+                    class="w-full px-4 py-2.5 rounded-xl bg-canvas border border-border text-sm text-ink placeholder-ink-muted focus:bg-surface focus:outline-none focus:border-ink transition"
+                  />
+                </div>
+              </div>
+
+              <!-- Dropdown Selects: Primary Engineering Track & Seniority Level -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label
+                    for="engineeringTrack"
+                    class="block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-2"
+                  >
+                    Primary Engineering Track
+                  </label>
+                  <select
+                    id="engineeringTrack"
+                    name="engineeringTrack"
+                    class="custom-select w-full px-4 py-2.5 rounded-xl bg-canvas border border-border text-sm text-ink focus:bg-surface focus:outline-none focus:border-ink transition"
+                  >
+                    <option value="Full-Stack Engineering">
+                      Full-Stack Engineering
+                    </option>
+                    <option value="Frontend Engineering">
+                      Frontend Engineering
+                    </option>
+                    <option value="Backend & Distributed Systems">
+                      Backend &amp; Distributed Systems
+                    </option>
+                    <option value="AI / ML / Agentic Engineering">
+                      AI / ML / Agentic Engineering
+                    </option>
+                    <option value="Platform / Cloud / DevOps">
+                      Platform / Cloud / DevOps
+                    </option>
+                    <option value="Mobile Engineering">
+                      Mobile Engineering
+                    </option>
+                    <option value="Security / Systems Engineering">
+                      Security / Systems Engineering
+                    </option>
+                  </select>
+                </div>
+
+                <div>
+                  <label
+                    for="seniorityLevel"
+                    class="block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-2"
+                  >
+                    Seniority Level
+                  </label>
+                  <select
+                    id="seniorityLevel"
+                    name="seniorityLevel"
+                    class="custom-select w-full px-4 py-2.5 rounded-xl bg-canvas border border-border text-sm text-ink focus:bg-surface focus:outline-none focus:border-ink transition"
+                  >
+                    <option value="Junior (L3)">Junior (L3)</option>
+                    <option value="Mid-Level (L4)">Mid-Level (L4)</option>
+                    <option value="Senior (L5)" selected>Senior (L5)</option>
+                    <option value="Staff / Principal (L6+)">
+                      Staff / Principal (L6+)
+                    </option>
+                    <option value="Founding / CTO">Founding / CTO</option>
+                    <option value="Engineering Manager">
+                      Engineering Manager
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Range Slider: Years of Production Experience -->
+              <div
+                class="p-4 sm:p-5 rounded-2xl bg-canvas border border-border"
+              >
+                <div class="flex items-center justify-between mb-2.5">
+                  <label for="yearsExp" class="text-sm font-semibold text-ink">
+                    Years of Production Experience
+                  </label>
+                  <span
+                    id="yearsExpBadge"
+                    class="font-mono text-xs font-semibold px-3 py-1 rounded-full bg-surface border border-border text-terracotta shadow-sm"
+                  >
+                    6 yrs
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  id="yearsExp"
+                  name="yearsExp"
+                  min="0"
+                  max="25"
+                  step="1"
+                  value="6"
+                  class="w-full"
+                />
+                <div
+                  class="flex justify-between font-mono text-[11px] text-ink-muted mt-2"
+                >
+                  <span>0 yrs</span>
+                  <span>5 yrs</span>
+                  <span>10 yrs</span>
+                  <span>15 yrs</span>
+                  <span>20 yrs</span>
+                  <span>25+ yrs</span>
+                </div>
+              </div>
+
+              <!-- Radio Button Pills: Work Arrangement -->
+              <div>
+                <label
+                  class="block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-2.5"
+                >
+                  Work Arrangement
+                </label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  <label
+                    class="choice-card cursor-pointer flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="radio"
+                      name="workArrangement"
+                      value="Remote-First"
+                      checked
+                      class="w-3.5 h-3.5 accent-ink"
+                    />
+                    <span>Remote-First</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="radio"
+                      name="workArrangement"
+                      value="Hybrid"
+                      class="w-3.5 h-3.5 accent-ink"
+                    />
+                    <span>Hybrid</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="radio"
+                      name="workArrangement"
+                      value="In-Office"
+                      class="w-3.5 h-3.5 accent-ink"
+                    />
+                    <span>In-Office</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="radio"
+                      name="workArrangement"
+                      value="Indie / Contract"
+                      class="w-3.5 h-3.5 accent-ink"
+                    />
+                    <span>Indie / Contract</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- =========================================================
+             SECTION 02: PRODUCTION TECH STACK & INFRASTRUCTURE
+             ========================================================= -->
+          <section
+            id="sec-02"
+            class="form-section bg-surface rounded-3xl border border-border shadow-card p-6 sm:p-8"
+          >
+            <div
+              class="flex flex-wrap items-start justify-between gap-4 border-b border-border/80 pb-5 mb-6"
+            >
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <span
+                    class="section-badge font-mono text-xs font-semibold px-2 py-0.5 rounded bg-terracotta-tint text-terracotta border border-terracotta-border transition-all duration-200"
+                    >SECTION 02</span
+                  >
+                  <span class="text-xs font-medium text-ink-muted"
+                    >Languages, Runtimes &amp; Cloud</span
+                  >
+                </div>
+                <h2
+                  class="font-serif text-2xl sm:text-3xl text-ink tracking-tight"
+                >
+                  Production Tech Stack &amp; Infrastructure
+                </h2>
+              </div>
+
+              <!-- Select Popular & Clear Helpers -->
+              <div class="flex items-center gap-2">
+                <button
+                  type="button"
+                  id="selectPopularStackBtn"
+                  class="px-3 py-1 rounded-full bg-muted hover:bg-border/70 text-xs font-semibold text-ink-secondary hover:text-ink transition"
+                >
+                  Select Popular
+                </button>
+                <button
+                  type="button"
+                  id="clearStackBtn"
+                  class="px-3 py-1 rounded-full bg-canvas hover:bg-muted border border-border text-xs font-medium text-ink-muted hover:text-ink transition"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+
+            <div class="space-y-6">
+              <!-- 16 Multi-Select Checkboxes Grid -->
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <label
+                    class="text-xs font-semibold uppercase tracking-wider text-ink-secondary"
+                  >
+                    Core Languages, Frameworks &amp; Data Stores
+                    <span class="text-terracotta">*</span>
+                  </label>
+                  <span
+                    id="stackSelectedCounter"
+                    class="font-mono text-xs font-semibold text-sage"
+                    >4 selected</span
+                  >
+                </div>
+
+                <div
+                  class="grid grid-cols-2 sm:grid-cols-4 gap-2.5"
+                  id="stackCheckboxes"
+                >
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="TypeScript"
+                      checked
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">TypeScript</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="Python"
+                      checked
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Python</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="Rust"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Rust</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="Go"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Go</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="React / Next.js"
+                      checked
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">React / Next.js</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="Vue / Nuxt"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Vue / Nuxt</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="SvelteKit"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">SvelteKit</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="Node.js / Bun"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Node.js / Bun</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="Java / Kotlin"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Java / Kotlin</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="C# / .NET"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">C# / .NET</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="Swift"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Swift</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="PostgreSQL"
+                      checked
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">PostgreSQL</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="Redis"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Redis</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="GraphQL"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">GraphQL</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="Docker / K8s"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Docker / K8s</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="techStack"
+                      value="Terraform"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Terraform</span>
+                  </label>
+                </div>
+                <p
+                  id="err-techStack"
+                  class="hidden mt-2 text-xs text-terracotta font-medium"
+                >
+                  Please select at least one technology or add a custom tag.
+                </p>
+              </div>
+
+              <!-- Custom Tech Stack Tag Builder -->
+              <div
+                class="p-4 sm:p-5 rounded-2xl bg-canvas border border-border"
+              >
+                <label
+                  for="customTagInput"
+                  class="block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-1.5"
+                >
+                  Custom Tech Stack Tag Builder
+                </label>
+                <p class="text-xs text-ink-muted mb-3">
+                  Add specialized tools, databases, or frameworks (e.g.
+                  <span class="font-mono">#Nix</span>,
+                  <span class="font-mono">#DuckDB</span>,
+                  <span class="font-mono">#Elixir</span>).
+                </p>
+                <div class="flex gap-2">
+                  <input
+                    type="text"
+                    id="customTagInput"
+                    placeholder="Type a tag (e.g. DuckDB, Nix, Temporal) and press Enter..."
+                    class="flex-1 px-4 py-2 rounded-xl bg-surface border border-border text-sm text-ink placeholder-ink-muted focus:outline-none focus:border-ink transition"
+                  />
+                  <button
+                    type="button"
+                    id="addCustomTagBtn"
+                    class="px-4 py-2 rounded-xl bg-ink hover:bg-terracotta text-white text-xs font-semibold transition shrink-0"
+                  >
+                    Add Tag
+                  </button>
+                </div>
+                <div
+                  id="customTagContainer"
+                  class="flex flex-wrap gap-2 mt-3"
+                ></div>
+              </div>
+
+              <!-- Dropdown Selects: Primary Cloud Provider & Daily Driver OS -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label
+                    for="cloudProvider"
+                    class="block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-2"
+                  >
+                    Primary Cloud Provider
+                  </label>
+                  <select
+                    id="cloudProvider"
+                    name="cloudProvider"
+                    class="custom-select w-full px-4 py-2.5 rounded-xl bg-canvas border border-border text-sm text-ink focus:bg-surface focus:outline-none focus:border-ink transition"
+                  >
+                    <option value="AWS">AWS (Amazon Web Services)</option>
+                    <option value="GCP">Google Cloud (GCP)</option>
+                    <option value="Azure">Microsoft Azure</option>
+                    <option value="Vercel / Cloudflare Edge">
+                      Vercel / Cloudflare Edge
+                    </option>
+                    <option value="Fly.io / Railway">Fly.io / Railway</option>
+                    <option value="Bare Metal / Self-Hosted">
+                      Bare Metal / Self-Hosted
+                    </option>
+                  </select>
+                </div>
+
+                <div>
+                  <label
+                    for="dailyOs"
+                    class="block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-2"
+                  >
+                    Daily Driver OS
+                  </label>
+                  <select
+                    id="dailyOs"
+                    name="dailyOs"
+                    class="custom-select w-full px-4 py-2.5 rounded-xl bg-canvas border border-border text-sm text-ink focus:bg-surface focus:outline-none focus:border-ink transition"
+                  >
+                    <option value="macOS Apple Silicon">
+                      macOS (Apple Silicon)
+                    </option>
+                    <option value="Linux (NixOS / Ubuntu / Arch)">
+                      Linux (NixOS / Ubuntu / Arch)
+                    </option>
+                    <option value="Windows 11 + WSL2">Windows 11 + WSL2</option>
+                    <option value="Cloud Dev Environment">
+                      Cloud Dev Environment
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- =========================================================
+             SECTION 03: AGENTIC AI WORKFLOWS & TOOLING
+             ========================================================= -->
+          <section
+            id="sec-03"
+            class="form-section bg-surface rounded-3xl border border-border shadow-card p-6 sm:p-8"
+          >
+            <div
+              class="flex items-start justify-between gap-4 border-b border-border/80 pb-5 mb-6"
+            >
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <span
+                    class="section-badge font-mono text-xs font-semibold px-2 py-0.5 rounded bg-terracotta-tint text-terracotta border border-terracotta-border transition-all duration-200"
+                    >SECTION 03</span
+                  >
+                  <span class="text-xs font-medium text-ink-muted"
+                    >Autonomy, Harnesses &amp; Guardrails</span
+                  >
+                </div>
+                <h2
+                  class="font-serif text-2xl sm:text-3xl text-ink tracking-tight"
+                >
+                  Agentic AI Workflows &amp; Tooling
+                </h2>
+              </div>
+            </div>
+
+            <div class="space-y-7">
+              <!-- 4 Levels of Agentic Workflow Adoption (Radio Cards) -->
+              <div>
+                <label
+                  class="block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-3"
+                >
+                  Agentic Workflow Adoption Level
+                  <span class="text-terracotta">*</span>
+                </label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <!-- Level 0 -->
+                  <label
+                    class="choice-card cursor-pointer flex flex-col justify-between p-4 rounded-2xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted"
+                  >
+                    <div class="flex items-start justify-between gap-2 mb-1.5">
+                      <span
+                        class="font-mono text-[11px] font-semibold uppercase px-2 py-0.5 rounded bg-surface border border-border text-ink-secondary"
+                        >Level 0</span
+                      >
+                      <input
+                        type="radio"
+                        name="agenticLevel"
+                        value="Level 0: Handcrafted Code Only"
+                        class="w-4 h-4 accent-ink"
+                      />
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold text-ink">
+                        Handcrafted Code Only
+                      </p>
+                      <p
+                        class="text-xs text-ink-secondary mt-1 leading-relaxed"
+                      >
+                        100% manual authoring, zero AI tools in editor or
+                        terminal.
+                      </p>
+                    </div>
+                  </label>
+
+                  <!-- Level 1 -->
+                  <label
+                    class="choice-card cursor-pointer flex flex-col justify-between p-4 rounded-2xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted"
+                  >
+                    <div class="flex items-start justify-between gap-2 mb-1.5">
+                      <span
+                        class="font-mono text-[11px] font-semibold uppercase px-2 py-0.5 rounded bg-surface border border-border text-ink-secondary"
+                        >Level 1</span
+                      >
+                      <input
+                        type="radio"
+                        name="agenticLevel"
+                        value="Level 1: Inline Autocomplete & Chat"
+                        class="w-4 h-4 accent-ink"
+                      />
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold text-ink">
+                        Inline Autocomplete &amp; Chat
+                      </p>
+                      <p
+                        class="text-xs text-ink-secondary mt-1 leading-relaxed"
+                      >
+                        Copilot tab completion &amp; web chat Q&amp;A for
+                        snippets and docs.
+                      </p>
+                    </div>
+                  </label>
+
+                  <!-- Level 2 -->
+                  <label
+                    class="choice-card cursor-pointer flex flex-col justify-between p-4 rounded-2xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted"
+                  >
+                    <div class="flex items-start justify-between gap-2 mb-1.5">
+                      <span
+                        class="font-mono text-[11px] font-semibold uppercase px-2 py-0.5 rounded bg-terracotta-tint border border-terracotta-border text-terracotta"
+                        >Level 2</span
+                      >
+                      <input
+                        type="radio"
+                        name="agenticLevel"
+                        value="Level 2: IDE Agentic Composer"
+                        checked
+                        class="w-4 h-4 accent-ink"
+                      />
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold text-ink">
+                        IDE Agentic Composer
+                      </p>
+                      <p
+                        class="text-xs text-ink-secondary mt-1 leading-relaxed"
+                      >
+                        Multi-file edits &amp; terminal tool execution in
+                        Cursor, Windsurf, Cline.
+                      </p>
+                    </div>
+                  </label>
+
+                  <!-- Level 3 -->
+                  <label
+                    class="choice-card cursor-pointer flex flex-col justify-between p-4 rounded-2xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted"
+                  >
+                    <div class="flex items-start justify-between gap-2 mb-1.5">
+                      <span
+                        class="font-mono text-[11px] font-semibold uppercase px-2 py-0.5 rounded bg-sage-tint border border-sage-border text-sage"
+                        >Level 3</span
+                      >
+                      <input
+                        type="radio"
+                        name="agenticLevel"
+                        value="Level 3: Multi-Agent Orchestrator & Custom MCP"
+                        class="w-4 h-4 accent-ink"
+                      />
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold text-ink">
+                        Multi-Agent Orchestrator &amp; Custom MCP
+                      </p>
+                      <p
+                        class="text-xs text-ink-secondary mt-1 leading-relaxed"
+                      >
+                        Autonomous CLI agents, Claude Code, custom MCP servers
+                        &amp; automated PR loops.
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Checkboxes: AI & Agentic Tools in Rotation (12 items) -->
+              <div>
+                <label
+                  class="block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-3"
+                >
+                  AI &amp; Agentic Tools in Rotation
+                </label>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="aiTools"
+                      value="Claude Code CLI"
+                      checked
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Claude Code CLI</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="aiTools"
+                      value="Cursor"
+                      checked
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Cursor</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="aiTools"
+                      value="GitHub Copilot"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">GitHub Copilot</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="aiTools"
+                      value="Windsurf"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Windsurf</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="aiTools"
+                      value="Cline / Roo Code"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Cline / Roo Code</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="aiTools"
+                      value="Custom MCP Servers"
+                      checked
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Custom MCP Servers</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="aiTools"
+                      value="LangGraph / CrewAI"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">LangGraph / CrewAI</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="aiTools"
+                      value="Vercel AI SDK"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Vercel AI SDK</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="aiTools"
+                      value="OpenAI o3 / Codex"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">OpenAI o3 / Codex</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="aiTools"
+                      value="Local LLMs (Ollama)"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Local LLMs (Ollama)</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="aiTools"
+                      value="Devin / Background Agents"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">Devin / Bg Agents</span>
+                  </label>
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-2.5 p-3 rounded-xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted text-xs sm:text-sm font-medium text-ink"
+                  >
+                    <input
+                      type="checkbox"
+                      name="aiTools"
+                      value="v0 / Bolt"
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="truncate">v0 / Bolt</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Two Range Sliders: AI Code % & Open Source Contribution Cadence -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="p-4 rounded-2xl bg-canvas border border-border">
+                  <div class="flex items-center justify-between mb-2">
+                    <label
+                      for="aiCodePercent"
+                      class="text-xs font-semibold text-ink"
+                    >
+                      % Code Assisted by AI Agents
+                    </label>
+                    <span
+                      id="aiCodeBadge"
+                      class="font-mono text-xs font-semibold px-2.5 py-0.5 rounded-full bg-surface border border-border text-terracotta"
+                    >
+                      55%
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    id="aiCodePercent"
+                    name="aiCodePercent"
+                    min="0"
+                    max="100"
+                    step="5"
+                    value="55"
+                    class="w-full"
+                  />
+                  <div
+                    class="flex justify-between font-mono text-[10px] text-ink-muted mt-1.5"
+                  >
+                    <span>0%</span>
+                    <span>50%</span>
+                    <span>100%</span>
+                  </div>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-canvas border border-border">
+                  <div class="flex items-center justify-between mb-2">
+                    <label
+                      for="ossCadence"
+                      class="text-xs font-semibold text-ink"
+                    >
+                      Open Source PR Cadence
+                    </label>
+                    <span
+                      id="ossCadenceBadge"
+                      class="font-mono text-xs font-semibold px-2.5 py-0.5 rounded-full bg-surface border border-border text-sage"
+                    >
+                      4 PRs/mo
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    id="ossCadence"
+                    name="ossCadence"
+                    min="0"
+                    max="20"
+                    step="1"
+                    value="4"
+                    class="w-full"
+                  />
+                  <div
+                    class="flex justify-between font-mono text-[10px] text-ink-muted mt-1.5"
+                  >
+                    <span>0 PRs</span>
+                    <span>10 PRs</span>
+                    <span>20+ PRs/mo</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Engineering Guardrails Toggle Cards -->
+              <div>
+                <label
+                  class="block text-xs font-semibold uppercase tracking-wider text-ink-secondary mb-2.5"
+                >
+                  Engineering Guardrails &amp; Verification Standards
+                </label>
+                <div class="space-y-2.5">
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-3 p-3.5 rounded-2xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted"
+                  >
+                    <input
+                      type="checkbox"
+                      name="guardrails"
+                      value="Strict human line-by-line review"
+                      checked
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="text-xs sm:text-sm font-medium text-ink"
+                      >Strict human line-by-line review before merging AI
+                      PRs</span
+                    >
+                  </label>
+
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-3 p-3.5 rounded-2xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted"
+                  >
+                    <input
+                      type="checkbox"
+                      name="guardrails"
+                      value="Automated test suite & CI check required"
+                      checked
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="text-xs sm:text-sm font-medium text-ink"
+                      >Automated test suite &amp; CI check required for agent
+                      commits</span
+                    >
+                  </label>
+
+                  <label
+                    class="choice-card cursor-pointer flex items-center gap-3 p-3.5 rounded-2xl border border-border bg-canvas has-[:checked]:border-ink has-[:checked]:bg-muted"
+                  >
+                    <input
+                      type="checkbox"
+                      name="guardrails"
+                      value="Shared .cursorrules / CLAUDE.md context"
+                      checked
+                      class="w-4 h-4 rounded accent-ink shrink-0"
+                    />
+                    <span class="text-xs sm:text-sm font-medium text-ink"
+                      >Shared
+                      <code
+                        class="font-mono text-xs bg-surface px-1.5 py-0.5 rounded border border-border"
+                        >.cursorrules</code
+                      >
+                      /
+                      <code
+                        class="font-mono text-xs bg-surface px-1.5 py-0.5 rounded border border-border"
+                        >CLAUDE.md</code
+                      >
+                      architecture context maintained in repo</span
+                    >
+                  </label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- =========================================================
+             SECTION 04: ARCHITECTURE REFLECTIONS & SUBMISSION
+             ========================================================= -->
+          <section
+            id="sec-04"
+            class="form-section bg-surface rounded-3xl border border-border shadow-card p-6 sm:p-8"
+          >
+            <div
+              class="flex items-start justify-between gap-4 border-b border-border/80 pb-5 mb-6"
+            >
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <span
+                    class="section-badge font-mono text-xs font-semibold px-2 py-0.5 rounded bg-terracotta-tint text-terracotta border border-terracotta-border transition-all duration-200"
+                    >SECTION 04</span
+                  >
+                  <span class="text-xs font-medium text-ink-muted"
+                    >Synthesis &amp; Verification</span
+                  >
+                </div>
+                <h2
+                  class="font-serif text-2xl sm:text-3xl text-ink tracking-tight"
+                >
+                  Architecture Reflections &amp; Submission
+                </h2>
+              </div>
+            </div>
+
+            <div class="space-y-6">
+              <!-- Reflection Textarea + Character Counter + Quick Prompt Chips -->
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-2">
+                  <label
+                    for="workflowNotes"
+                    class="text-sm font-semibold text-ink"
+                  >
+                    How have agentic workflows changed how you architect, debug,
+                    or ship software? <span class="text-terracotta">*</span>
+                  </label>
+                  <span
+                    id="notesCharCounter"
+                    class="font-mono text-xs text-ink-muted shrink-0"
+                    >0 / 500</span
+                  >
+                </div>
+
+                <textarea
+                  id="workflowNotes"
+                  name="workflowNotes"
+                  rows="4"
+                  maxlength="500"
+                  required
+                  placeholder="Describe how coding agents, MCP servers, or automated test loops fit into your daily engineering practice..."
+                  class="w-full p-4 rounded-2xl bg-canvas border border-border text-sm text-ink placeholder-ink-muted focus:bg-surface focus:outline-none focus:border-ink transition"
+                ></textarea>
+                <p
+                  id="err-workflowNotes"
+                  class="hidden mt-1.5 text-xs text-terracotta font-medium"
+                >
+                  Please share a brief reflection (at least 10 characters).
+                </p>
+
+                <!-- Quick-Insert Prompt Chips -->
+                <div class="mt-3 flex flex-wrap items-center gap-1.5">
+                  <span class="text-xs text-ink-muted mr-1"
+                    >Quick-insert insight:</span
+                  >
+                  <button
+                    type="button"
+                    data-prompt="We keep a strict CLAUDE.md spec in the repo root and use Claude Code CLI for multi-file refactors and test generation."
+                    class="prompt-chip text-xs px-3 py-1 rounded-full bg-muted hover:bg-border/70 text-ink-secondary hover:text-ink transition"
+                  >
+                    + CLAUDE.md + Multi-file refactors
+                  </button>
+                  <button
+                    type="button"
+                    data-prompt="Custom MCP servers connected to PostgreSQL and GitHub issues have cut our debugging and PR triage loop in half."
+                    class="prompt-chip text-xs px-3 py-1 rounded-full bg-muted hover:bg-border/70 text-ink-secondary hover:text-ink transition"
+                  >
+                    + Custom MCP debugging loop
+                  </button>
+                  <button
+                    type="button"
+                    data-prompt="Agents write 70% of our boilerplate and unit tests, freeing engineers to focus on domain boundaries and system design."
+                    class="prompt-chip text-xs px-3 py-1 rounded-full bg-muted hover:bg-border/70 text-ink-secondary hover:text-ink transition"
+                  >
+                    + Focus on system design
+                  </button>
+                </div>
+              </div>
+
+              <!-- Verification Checkbox -->
+              <div class="p-4 rounded-2xl bg-canvas border border-border">
+                <label class="cursor-pointer flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="verifyConfirm"
+                    name="verifyConfirm"
+                    checked
+                    class="mt-0.5 w-4 h-4 rounded accent-ink shrink-0"
+                  />
+                  <span
+                    class="text-xs sm:text-sm text-ink-secondary leading-relaxed"
+                  >
+                    I confirm this engineering profile and stack configuration
+                    represent my current workflow.
+                    <span class="text-terracotta">*</span>
+                  </span>
+                </label>
+                <p
+                  id="err-verifyConfirm"
+                  class="hidden mt-1.5 text-xs text-terracotta font-medium pl-7"
+                >
+                  Please confirm your profile before submitting.
+                </p>
+              </div>
+
+              <!-- Submit Button -->
+              <div
+                class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4"
+              >
+                <p class="text-xs text-ink-muted">
+                  All fields update the live
+                  <span class="font-mono text-ink">DEV.SPEC</span> inspector in
+                  real time.
+                </p>
+                <button
+                  type="submit"
+                  class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-terracotta hover:bg-terracotta-hover text-white text-sm font-semibold shadow-md transition flex items-center justify-center gap-2.5"
+                >
+                  <span>Submit Engineer Profile</span>
+                  <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path
+                      fill-rule="evenodd"
+                      d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </section>
+        </form>
+
+        <!-- ================= 4. STICKY RIGHT COLUMN: LIVE ENGINEER SPEC CARD & JSON INSPECTOR (5 COLS) ================= -->
+        <aside class="lg:col-span-5 lg:sticky lg:top-24 space-y-4">
+          <div
+            class="bg-surface rounded-3xl border border-border shadow-card overflow-hidden"
+          >
+            <!-- Inspector Header & Dual-Tab Toggle -->
+            <div
+              class="px-6 py-4 bg-muted/70 border-b border-border flex items-center justify-between gap-3"
+            >
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-sage animate-pulse"></span>
+                <span
+                  class="font-mono text-xs font-semibold uppercase tracking-wider text-ink"
+                  >Live Spec Inspector</span
+                >
+              </div>
+
+              <!-- Tab Toggle: Engineer Card vs JSON Payload -->
+              <div
+                class="inline-flex p-0.5 rounded-full bg-canvas border border-border text-xs font-semibold"
+              >
+                <button
+                  type="button"
+                  id="tabCardBtn"
+                  class="px-3 py-1 rounded-full bg-ink text-white transition"
+                >
+                  Engineer Card
+                </button>
+                <button
+                  type="button"
+                  id="tabJsonBtn"
+                  class="px-3 py-1 rounded-full text-ink-secondary hover:text-ink transition"
+                >
+                  JSON Payload
+                </button>
+              </div>
+            </div>
+
+            <!-- TAB 1: VISUAL ENGINEER SPEC CARD -->
+            <div id="inspectorCardView" class="p-6 space-y-6">
+              <!-- Identity Header -->
+              <div
+                class="flex items-start justify-between gap-4 pb-5 border-b border-border/80"
+              >
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div
+                    id="cardAvatar"
+                    class="w-12 h-12 rounded-2xl bg-ink text-canvas font-serif text-2xl flex items-center justify-center shrink-0"
+                  >
+                    E
+                  </div>
+                  <div class="min-w-0">
+                    <h3
+                      id="cardName"
+                      class="font-serif text-2xl text-ink leading-tight truncate"
+                    >
+                      Unnamed Engineer
+                    </h3>
+                    <p
+                      id="cardTitleTrack"
+                      class="text-xs font-medium text-ink-secondary truncate mt-0.5"
+                    >
+                      Senior (L5) • Full-Stack Engineering
+                    </p>
+                    <p
+                      id="cardMetaSub"
+                      class="font-mono text-[11px] text-ink-muted truncate mt-1"
+                    >
+                      6 yrs exp • Remote-First
+                    </p>
+                  </div>
+                </div>
+                <span
+                  id="cardLevelPill"
+                  class="font-mono text-[11px] font-semibold px-2.5 py-1 rounded-full bg-terracotta-tint text-terracotta border border-terracotta-border shrink-0"
+                >
+                  Level 2
+                </span>
+              </div>
+
+              <!-- Calculated Agentic Readiness Score Meter -->
+              <div class="p-4 rounded-2xl bg-canvas border border-border">
+                <div class="flex items-center justify-between mb-2">
+                  <div>
+                    <span
+                      class="text-xs font-semibold uppercase tracking-wider text-ink-secondary block"
+                      >Agentic Readiness Score</span
+                    >
+                    <span id="readinessLabel" class="text-xs text-ink-muted"
+                      >Computed from autonomy, tools &amp; guardrails</span
+                    >
+                  </div>
+                  <span
+                    id="readinessScoreValue"
+                    class="font-serif text-3xl text-sage"
+                    >74<span class="text-base text-ink-muted">/100</span></span
+                  >
+                </div>
+                <div
+                  class="w-full h-2.5 rounded-full bg-muted border border-border overflow-hidden"
+                >
+                  <div
+                    id="readinessBar"
+                    class="h-full bg-sage transition-all duration-300"
+                    style="width: 74%"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- Environment & Telemetry Key-Value Grid -->
+              <div class="grid grid-cols-2 gap-3 text-xs">
+                <div class="p-3 rounded-xl bg-canvas border border-border">
+                  <span class="text-ink-muted block mb-0.5"
+                    >Cloud &amp; Infra</span
+                  >
+                  <span
+                    id="cardCloud"
+                    class="font-semibold text-ink truncate block"
+                    >AWS</span
+                  >
+                </div>
+                <div class="p-3 rounded-xl bg-canvas border border-border">
+                  <span class="text-ink-muted block mb-0.5"
+                    >Daily Driver OS</span
+                  >
+                  <span
+                    id="cardOs"
+                    class="font-semibold text-ink truncate block"
+                    >macOS Apple Silicon</span
+                  >
+                </div>
+                <div class="p-3 rounded-xl bg-canvas border border-border">
+                  <span class="text-ink-muted block mb-0.5">AI Code Share</span>
+                  <span
+                    id="cardAiShare"
+                    class="font-mono font-semibold text-terracotta"
+                    >55% assisted</span
+                  >
+                </div>
+                <div class="p-3 rounded-xl bg-canvas border border-border">
+                  <span class="text-ink-muted block mb-0.5">OSS Cadence</span>
+                  <span id="cardOss" class="font-mono font-semibold text-sage"
+                    >4 PRs / month</span
+                  >
+                </div>
+              </div>
+
+              <!-- Selected Production Tech Stack Chips -->
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span
+                    class="text-xs font-semibold uppercase tracking-wider text-ink-secondary"
+                    >Production Stack</span
+                  >
+                  <span
+                    id="cardStackCount"
+                    class="font-mono text-[11px] text-ink-muted"
+                    >5 items</span
+                  >
+                </div>
+                <div id="cardStackChips" class="flex flex-wrap gap-1.5"></div>
+              </div>
+
+              <!-- Active AI & Agentic Tooling Chips -->
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span
+                    class="text-xs font-semibold uppercase tracking-wider text-ink-secondary"
+                    >Agentic Tooling &amp; Guardrails</span
+                  >
+                  <span
+                    id="cardAiToolsCount"
+                    class="font-mono text-[11px] text-ink-muted"
+                    >3 tools</span
+                  >
+                </div>
+                <div id="cardAiChips" class="flex flex-wrap gap-1.5"></div>
+              </div>
+
+              <!-- Live Reflection Quote Preview -->
+              <div class="pt-4 border-t border-border/80">
+                <span
+                  class="text-xs font-semibold uppercase tracking-wider text-ink-secondary block mb-1.5"
+                  >Architecture Note</span
+                >
+                <p
+                  id="cardNotesPreview"
+                  class="text-xs text-ink-secondary italic leading-relaxed"
+                >
+                  "No architecture reflection added yet..."
+                </p>
+              </div>
+            </div>
+
+            <!-- TAB 2: LIVE JSON PAYLOAD INSPECTOR -->
+            <div id="inspectorJsonView" class="hidden p-6">
+              <div class="flex items-center justify-between mb-3">
+                <span class="font-mono text-xs text-ink-secondary"
+                  >telemetry_payload.json</span
+                >
+                <button
+                  type="button"
+                  id="copyJsonSidebarBtn"
+                  class="px-3 py-1 rounded-lg bg-muted hover:bg-border text-ink font-mono text-xs font-medium transition"
+                >
+                  Copy JSON
+                </button>
+              </div>
+              <pre
+                id="liveJsonPre"
+                class="custom-scroll font-mono text-xs bg-ink text-canvas p-4 rounded-2xl overflow-x-auto max-h-[520px] leading-relaxed"
+              ></pre>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- ================= 5. SUBMISSION DOSSIER MODAL ================= -->
+    <div
+      id="submissionModal"
+      class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-ink/50 backdrop-blur-sm"
+    >
+      <div
+        class="w-full max-w-2xl bg-surface rounded-3xl border border-border shadow-2xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto"
+      >
+        <!-- Modal Top Bar -->
+        <div
+          class="flex items-center justify-between gap-4 pb-4 border-b border-border mb-6"
+        >
+          <div class="flex items-center gap-2.5">
+            <span
+              class="px-3 py-1 rounded-full bg-sage-tint text-sage border border-sage-border font-mono text-xs font-semibold"
+            >
+              ✓ PROFILE REGISTERED
+            </span>
+            <span class="font-mono text-xs text-ink-muted"
+              >DEV.SPEC Dossier</span
+            >
+          </div>
+          <button
+            type="button"
+            id="closeModalBtn"
+            class="w-8 h-8 rounded-full bg-muted hover:bg-border text-ink-secondary flex items-center justify-center transition"
+            aria-label="Close modal"
+          >
+            ✕
+          </button>
+        </div>
+
+        <!-- Modal Headline -->
+        <h2
+          class="font-serif text-3xl sm:text-4xl text-ink tracking-tight mb-2"
+        >
+          Engineer Spec Compiled for
+          <span
+            id="modalEngineerName"
+            class="italic font-normal text-terracotta"
+            >Engineer</span
+          >
+        </h2>
+        <p class="text-sm text-ink-secondary mb-6">
+          Your engineering identity, production stack, and agentic workflow
+          telemetry are ready for export.
+        </p>
+
+        <!-- Key Stats Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+          <div class="p-3.5 rounded-2xl bg-canvas border border-border">
+            <span class="text-[11px] font-medium text-ink-muted block"
+              >Track &amp; Level</span
+            >
+            <span
+              id="modalStatRole"
+              class="text-xs font-semibold text-ink mt-0.5 block truncate"
+              >Staff • Full-Stack</span
+            >
+          </div>
+          <div class="p-3.5 rounded-2xl bg-canvas border border-border">
+            <span class="text-[11px] font-medium text-ink-muted block"
+              >Stack Footprint</span
+            >
+            <span
+              id="modalStatStack"
+              class="font-mono text-xs font-semibold text-ink mt-0.5 block"
+              >6 technologies</span
+            >
+          </div>
+          <div class="p-3.5 rounded-2xl bg-canvas border border-border">
+            <span class="text-[11px] font-medium text-ink-muted block"
+              >Agentic Stage</span
+            >
+            <span
+              id="modalStatAgent"
+              class="font-mono text-xs font-semibold text-terracotta mt-0.5 block"
+              >Level 2</span
+            >
+          </div>
+          <div class="p-3.5 rounded-2xl bg-canvas border border-border">
+            <span class="text-[11px] font-medium text-ink-muted block"
+              >Readiness Score</span
+            >
+            <span
+              id="modalStatScore"
+              class="font-mono text-xs font-semibold text-sage mt-0.5 block"
+              >78 / 100</span
+            >
+          </div>
+        </div>
+
+        <!-- Formatted JSON Output -->
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-mono text-xs font-semibold text-ink-secondary"
+              >Compiled JSON Dossier</span
+            >
+          </div>
+          <pre
+            id="modalJsonPre"
+            class="custom-scroll font-mono text-xs bg-ink text-canvas p-4 rounded-2xl overflow-x-auto max-h-60 leading-relaxed"
+          ></pre>
+        </div>
+
+        <!-- Modal Action Buttons -->
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-border"
+        >
+          <div class="flex items-center gap-2.5 w-full sm:w-auto">
+            <button
+              type="button"
+              id="modalCopyJsonBtn"
+              class="flex-1 sm:flex-initial px-4 py-2.5 rounded-full bg-muted hover:bg-border text-ink text-xs font-semibold transition"
+            >
+              Copy JSON
+            </button>
+            <button
+              type="button"
+              id="modalDownloadJsonBtn"
+              class="flex-1 sm:flex-initial px-4 py-2.5 rounded-full bg-terracotta-tint hover:bg-terracotta hover:text-white text-terracotta border border-terracotta-border text-xs font-semibold transition"
+            >
+              Download .json
+            </button>
+          </div>
+
+          <button
+            type="button"
+            id="modalDoneBtn"
+            class="w-full sm:w-auto px-6 py-2.5 rounded-full bg-ink hover:bg-ink/90 text-white text-xs font-semibold transition"
+          >
+            Done
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= APPLICATION JAVASCRIPT ================= -->
+    <script src="js/script.js"></script>
+  </body>
+</html>
