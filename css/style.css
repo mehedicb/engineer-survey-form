@@ -8,13 +8,11 @@ html {
 }
 
 body {
-  background-color: #FAF8F5;
+  background-color: #faf8f5;
   color: #181816;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image:
-    radial-gradient(circle at 12% 8%, rgba(217, 93, 57, 0.05), transparent 38%),
-    radial-gradient(circle at 88% 20%, rgba(42, 111, 78, 0.045), transparent 42%);
+  background-image: radial-gradient(circle at 12% 8%, rgba(217, 93, 57, 0.05), transparent 38%), radial-gradient(circle at 88% 20%, rgba(42, 111, 78, 0.045), transparent 42%);
   background-attachment: fixed;
 }
 
@@ -24,54 +22,54 @@ body {
 }
 
 .choice-card:hover {
-  border-color: #C9C1B6;
+  border-color: #c9c1b6;
   transform: translateY(-1px);
 }
 
 /* Custom Warm Range Sliders */
-input[type="range"] {
+input[type=range] {
   -webkit-appearance: none;
   appearance: none;
   background: transparent;
   cursor: pointer;
 }
 
-input[type="range"]::-webkit-slider-runnable-track {
+input[type=range]::-webkit-slider-runnable-track {
   height: 6px;
   border-radius: 999px;
-  background: #E8E3DC;
+  background: #e8e3dc;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   height: 20px;
   width: 20px;
   border-radius: 50%;
-  background: #D95D39;
-  border: 3px solid #FFFFFF;
+  background: #d95d39;
+  border: 3px solid #ffffff;
   box-shadow: 0 2px 6px rgba(24, 24, 22, 0.22);
   margin-top: -7px;
   transition: transform 0.18s var(--ease-editorial), background-color 0.18s ease;
 }
 
-input[type="range"]::-webkit-slider-thumb:hover {
+input[type=range]::-webkit-slider-thumb:hover {
   transform: scale(1.12);
-  background: #C04D2B;
+  background: #c04d2b;
 }
 
-input[type="range"]::-moz-range-track {
+input[type=range]::-moz-range-track {
   height: 6px;
   border-radius: 999px;
-  background: #E8E3DC;
+  background: #e8e3dc;
 }
 
-input[type="range"]::-moz-range-thumb {
+input[type=range]::-moz-range-thumb {
   height: 20px;
   width: 20px;
   border-radius: 50%;
-  background: #D95D39;
-  border: 3px solid #FFFFFF;
+  background: #d95d39;
+  border: 3px solid #ffffff;
   box-shadow: 0 2px 6px rgba(24, 24, 22, 0.22);
   transition: transform 0.18s var(--ease-editorial);
 }
@@ -92,12 +90,12 @@ select.custom-select {
 }
 
 .custom-scroll::-webkit-scrollbar-track {
-  background: #F3EFEA;
+  background: #f3efea;
   border-radius: 8px;
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-  background: #D5CEC4;
+  background: #d5cec4;
   border-radius: 8px;
 }
 
@@ -107,12 +105,12 @@ select.custom-select {
 }
 
 .form-section.is-active-section {
-  border-color: #F3C6B6;
+  border-color: #f3c6b6;
 }
 
 .form-section.is-active-section .section-badge {
-  background-color: #D95D39;
-  color: #FFFFFF;
-  border-color: #D95D39;
+  background-color: #d95d39;
+  color: #ffffff;
+  border-color: #d95d39;
   box-shadow: 0 2px 8px rgba(217, 93, 57, 0.22);
 }
